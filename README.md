@@ -1,4 +1,6 @@
-** Starwars API Diploma project **
-|
-|-swfrontend: frontend
-|-backend: lambda function as a backend
+# Starwars API Diploma project
+
+## swfrontend
+  Frontend - python, flask
+## backend
+  Lambda function as backend
