@@ -84,10 +84,7 @@ def delete_table():
 
 
 def update_table(sw_api: str = STARWARS_API) -> dict:
-    print("Trying to delete table")
     delete_table()
-    print("Table deleted")
-    print(f'STARWARS_API = {STARWARS_API}')
     table = create_table()
     try:
         for t in ['planets', 'people']: # planets must be first
