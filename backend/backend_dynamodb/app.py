@@ -113,9 +113,7 @@ def add_object_to_db(table, obj_type: str, json_obj: dict) -> bool:
         'planet':[ 'name', 'gravity', 'climate'  ],
         'person':[ 'name', 'gender', 'homeworld' ]
         }
-    # pprint(json_obj)
     d['uid'] = int(json_obj['url'].strip("/").split("/")[-1])
-    # print(f"type({t}) -- uid({d['uid']})")
     for f in store_fields_dict[t]:
         field_data = json_obj[f]
         if f == 'homeworld':
@@ -125,7 +123,6 @@ def add_object_to_db(table, obj_type: str, json_obj: dict) -> bool:
                 KeyConditionExpression=Key('uid').eq(homeworld_id),
                 FilterExpression=Key('objtype').eq('planet')
                 )['Items']
-            # pprint(q)
             if len(q) > 0:
                 field_data = q[0]['name']
         d[f] = field_data
