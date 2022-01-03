@@ -1,0 +1,6 @@
+.aws-sam
+__pycache__
+venv
+.idea
+docker-compose.yml
+template.yaml

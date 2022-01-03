@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{planet.name}} </h1>
+<table border="1">
+    <caption>Residents of {{ planet.name }}</caption>
+    <tr>
+        <th>Name</th>
+        <th>Gender</th>
+    </tr>
+{% for resident in planet.residents %}
+    <tr>
+        <td>{{resident.name}}</td>
+        <td>{{resident.gender}}</td>
+    </tr>
+{% endfor %}
+</table>
+<div><u>Total residents: {{ planet.residents|length }}</u></div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Planets</h1>
+<table border="1">
+    <caption>Planets table</caption>
+    <tr>
+        <th>Name</th>
+        <th>Gravitation</th>
+        <th>Climate</th>
+    </tr>
+{% for planet in planets %}
+    <tr>
+        <td><a href="{{ url_for('residents', planet_name=planet.name) }}">{{planet.name}}</a></td>
+        <td>{{planet.gravity}}</td>
+        <td>{{planet.climate}}</td>
+    </tr>
+{% endfor %}
+</table>
+{% endblock %}

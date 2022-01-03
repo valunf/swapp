@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Main page of StarWars API Diploma by Valerii Lisin </h1>
+<div><p>People: {{people_count}}</p></div>
+<div><p>Planets: {{planet_count}}</p></div>
+<div> 
+    <form method="post">
+        <input type="submit" name="update_button" value="Update database">
+    </form>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class=flashes>
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+</div>
+{% endblock %}

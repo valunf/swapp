@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>All residents</h1>
+<table border="1">
+    <caption>All residents table</caption>
+    <tr>
+        <th>Planet Name</th>
+        <th>Residents amount</th>
+    </tr>
+{% for item in data %}
+    <tr>
+        <td><a href="{{ url_for('residents', planet_name=item.name) }}">{{item.name}}</a></td>
+        <td>{{item.count}}</td>
+    </tr>
+{% endfor %}
+</table>
+{% endblock %}
