@@ -4,7 +4,7 @@ pipeline {
         stage('Build container') {
             steps {
                 //TODO Add building container and running tests
-                echo env.BRANCH_NAME
+                echo env.GIT_BRANCH
             }
         }
     }
