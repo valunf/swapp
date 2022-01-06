@@ -4,3 +4,4 @@ venv
 .idea
 docker-compose.yml
 template.yaml
+docker

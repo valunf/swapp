@@ -8,11 +8,11 @@ test_client = client_app.test_client()
 @pytest.fixture(autouse=True)
 def backend_patch(mocker):
     mocker.patch(
-        'app.backend.update_database',
+        'app.proxy.update_database',
         return_value = True
     )
     mocker.patch(
-        'app.backend.get_items_count',
+        'app.proxy.get_items_count',
         return_value = {'people': 99, 'planets': 42}
     )
     def get_message(path: str):
@@ -25,7 +25,7 @@ def backend_patch(mocker):
                     "objtype": "person",
                     "gender": "male"
                 }
-            ]
+            ]  
         elif path == 'planets':
             return [
                 {
@@ -43,7 +43,7 @@ def backend_patch(mocker):
                 'residents': [{"gender": "male", "name": "Anakin Skywalker"}]
             }
     mocker.patch(
-        'app.backend.get_message',
+        'app.proxy.get_message',
         side_effect=get_message
     )
 
