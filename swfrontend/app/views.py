@@ -1,5 +1,5 @@
 # noinspection PyUnresolvedReferences
-from app import app, backend
+from app import app, proxy
 from flask import render_template, request, flash
 
 
@@ -7,12 +7,12 @@ from flask import render_template, request, flash
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST' and request.form.get('update_button'):
-        if backend.update_database():
+        if proxy.update_database():
             flash("Database updated successfully")
         else:
             flash("Can not update database!")
 
-    count = backend.get_items_count()
+    count = proxy.get_items_count()
     return render_template('index.html',
                            people_count=count['people'],
                            planet_count=count['planets'])
@@ -21,22 +21,22 @@ def index():
 @app.route('/people')
 def people():
     return render_template('people.html',
-                           people=backend.get_people())
+                           people=proxy.get_people())
 
 
 @app.route('/planets')
 def planets():
     return render_template('planets.html',
-                           planets=backend.get_planets())
+                           planets=proxy.get_planets())
 
 
 @app.route('/allresidents')
 def allresidents():
     return render_template('allresidents.html',
-                           data=backend.get_allresidents())
+                           data=proxy.get_allresidents())
 
 
 @app.route('/residents/<planet_name>')
 def residents(planet_name: str):
     return render_template('residents.html',
-                           planet=backend.get_planet(planet_name) )
+                           planet=proxy.get_planet(planet_name) )
