@@ -15,7 +15,6 @@ pipeline {
             }
             steps {
                dir("swfrontend") {
-                sh 'docker build -f ${dockerfile} . -t swfrontend:test'
                 script {
                     docker.build(testImageName, "-f ${dockerfile} .")
                 }
@@ -41,7 +40,6 @@ pipeline {
                     script {
                         dockerImage = docker.build imageName
                     }
-                    // sh "docker build . -t ${imageName}"
                 }
             }
         }
