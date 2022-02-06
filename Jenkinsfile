@@ -4,9 +4,11 @@ pipeline {
         disableConcurrentBuilds()
     }
     environment {
-        registryUrl = "537006042321.dkr.ecr.eu-central-1.amazonaws.com/lisin"
+        AWS_ACCOUNT_ID = "537006042321"
+        AWS_DEFAULT_REGION = "eu-central-1"
         testImageName = "swfrontend:test-${env.BUILD_ID}"
-        imageName = "swfrontend:latest"
+        IMAGE_REPO_NAME = "swfrontend"
+        REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
     }
     stages{
         stage('Build test container and run tests') {
@@ -34,26 +36,25 @@ pipeline {
             }
         }
         stage('Build prod image') {
-            when { branch 'master' }
+            when { buildingTag() }
             steps {
                 dir("swfrontend") {
                     script {
-                        dockerImage = docker.build imageName
+                        dockerImage = docker.build "${IMAGE_REPO_NAME}:${env.TAG_NAME}"
                     }
                 }
             }
         }
-        stage('Push prod image to registry') {
-            when { branch 'master' }
+        stage('Push image to registry') {
+            when { buildingTag() }
             steps {
                 script {
-                    withDockerRegistry(url: registryUrl){
-                        dockerImage.push()
-                    }
+                    sh "aws ecr get-login-password — region ${AWS_DEFAULT_REGION} | docker login — username AWS — password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+                    sh "docker tag ${IMAGE_REPO_NAME}:${env.TAG_NAME} ${REPOSITORY_URI}:${env.TAG_NAME}"
+                    sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${env.TAG_NAME}"
                 }
             }
         }
-
     }
     post {
         always {
