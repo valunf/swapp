@@ -15,12 +15,12 @@ STARWARS_API = "swapi.py4e.com" # Default
 TYPES_MAP = {'planets': 'planet', 'people': 'person'}
 
 local_dynamodb_url = 'http://172.16.22.2:8000'
-region = os.environ['AWS_REGION'] or 'eu-central-1'
-if os.environ['AWS_SAM_LOCAL']:
+region = os.getenv('AWS_REGION', default='eu-central-1')
+if os.getenv('AWS_SAM_LOCAL'):
     DBD = boto3.resource('dynamodb', region_name=region, endpoint_url=local_dynamodb_url)
 else:
     DBD = boto3.resource('dynamodb', region_name=region)
-TABLE_NAME = os.environ['TABLE_NAME']
+TABLE_NAME = os.getenv('TABLE_NAME', default='starwars')
 
 def create_table():
     tbl = DBD.create_table(
